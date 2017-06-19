@@ -1,0 +1,17 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+html,
+body,
+#root {
+    height: 100%;
+}
+
+body {
+    color:#424242;
+}

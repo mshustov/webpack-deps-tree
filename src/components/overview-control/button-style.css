@@ -1,0 +1,13 @@
+.module-overview-button {
+    display: inline-block;
+    height: 28px;
+    border: 1px solid #eee;
+    background-color: #fff;
+
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+.module-overview-button:hover:not(.module-overview-button--disabled) {
+    border-color: #afafaf;
+}

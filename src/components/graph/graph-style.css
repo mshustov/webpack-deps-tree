@@ -1,0 +1,20 @@
+.graph {
+    position: relative;
+}
+
+.graph__settings{
+    position: absolute;
+
+    left: 20px;
+    top: 20px;
+}
+
+.graph__filter {
+    display: inline-block;
+    width: 200px;
+}
+
+.graph__controls {
+    display: inline-block;
+    margin-left: 20px;
+}

@@ -1,0 +1,24 @@
+.container {
+    height: 100%;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.container__control-list {
+    height: 100%;
+    width: 500px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.container__control-item {
+    flex-grow: 1;
+}
+
+.container__group-control {
+    height: 24px;
+    line-height: 24px;
+    padding: 1px 0;
+}

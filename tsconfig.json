@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "strictNullChecks": false,
+        "moduleResolution": "node",
+        "jsx": "react",
+        "target": "es2017",
+        "allowJs": true
+    },
+    "exclude": [
+        "build",
+        "node_modules"
+    ]
+}
