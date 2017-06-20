@@ -1,0 +1,9 @@
+.table {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+}
+
+.reference-table__element {
+    font-size: 11px;
+}

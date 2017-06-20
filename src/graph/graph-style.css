@@ -1,0 +1,49 @@
+.link {
+  stroke: #333;
+  stroke-opacity: 0.5;
+  pointer-events: none;
+}
+
+.link.dashed {
+  stroke-dasharray: 8, 8; 
+}
+
+.node {
+  fill: lightsteelblue;
+  stroke: #555;
+  stroke-width: 3px;
+}
+
+.node.leaf {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+text {
+  font: 8px sans-serif;
+  pointer-events: none;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+}
+
+path.hull {
+  fill: lightsteelblue;
+  fill-opacity: 0.2;
+}
+
+.node.fade {
+  opacity: 0.3;
+}
+
+.link.fade {
+  stroke-width: 1px;
+  stroke-opacity: 0.1;
+}
+
+.text.fade {
+  opacity: 0.3;
+}
+
+.arrow.fade {
+  opacity: 0.3;
+}
+

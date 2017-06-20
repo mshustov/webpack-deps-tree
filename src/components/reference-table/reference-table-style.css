@@ -1,0 +1,21 @@
+.reference-table {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+}
+
+.reference-table__title {
+    display: block;
+    height: 24px;
+    line-height: 18px;
+    padding: 2px 0;
+}
+
+.reference-table__element {
+    flex-grow: 1;
+    font-size: 11px;
+}
+
+.reference-table--empty .reference-table__title {
+    text-align: center;
+}

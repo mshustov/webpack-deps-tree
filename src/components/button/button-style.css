@@ -1,0 +1,14 @@
+.button {
+    display: inline-block;
+    height: 100%;
+
+    border: none;
+    background: none;
+    outline: none;
+    appearance: none;
+    user-select: none;
+}
+
+.button:hover:enabled {
+    cursor: pointer;
+}

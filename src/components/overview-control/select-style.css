@@ -1,0 +1,17 @@
+.overview-select {
+    display: inline-block;
+    border: 1px solid #eee;
+    border-right: none;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    background-color: #fff;
+}
+
+.overview-select__element {
+    display: inline-block;
+    max-width: 200px;
+    height: 26px;
+    border: none;
+    background: none;
+    outline: none;
+}
