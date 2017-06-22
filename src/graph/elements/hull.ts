@@ -15,10 +15,13 @@ function buildHulls(nodes) {
         var i = getGroup(n);
         var l = hulls[i] || (hulls[i] = []);
 
-        l.push([n.x - offset, n.y - offset]);
-        l.push([n.x - offset, n.y + offset]);
-        l.push([n.x + offset, n.y - offset]);
-        l.push([n.x + offset, n.y + offset]);
+        // when node without any connections - ignore it
+        if (n.weight) {
+            l.push([n.x - offset, n.y - offset]);
+            l.push([n.x - offset, n.y + offset]);
+            l.push([n.x + offset, n.y - offset]);
+            l.push([n.x + offset, n.y + offset]);
+        }
     }
 
     return hulls;
