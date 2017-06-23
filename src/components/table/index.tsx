@@ -52,11 +52,11 @@ class ModuleTableWrapper extends React.Component<ModulesTableProps, ModulesTable
             });
         }
 
-        // TODO: regexp
-        const filteredDataList = this._dataList.filter(m => m.name.toLowerCase().indexOf(filterBy) !== -1);
+        const filterReg = new RegExp(filterBy, 'i');
+        const filteredDataList = this._dataList.filter(m => filterReg.test(m.name));
 
         this.setState((prevState, props) => {
-            return { ...prevState, filteredDataList: filteredDataList };
+            return { ...prevState, filteredDataList };
         });
     }
 
