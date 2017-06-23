@@ -2,9 +2,9 @@ import uniqBy from 'lodash/uniqBy';
 import flow from 'lodash/flow';
 const path = require('path');
 
-function is3rdPartLibrary(moduleName: string): boolean {
-    // FIXME won't work for webpack v3
-    return moduleName.includes('~') || moduleName.includes('(webpack)');
+const exec3rdPartyLibraryRegexp = /~|node_modules|\(webpack\)/;
+function exec3rdPartyLibrary(moduleName: string): RegExpExecArray | null {
+    return exec3rdPartyLibraryRegexp.exec(moduleName);
 }
 
 function formatPathIden(targetId: ModuleId, sourceId: ModuleId): string {
@@ -48,16 +48,20 @@ function processData(stats: WebpackStat) {
         return module.group.name !== reason.group.name;
     };
 
-    // create module cache and normalise shape
+    // create module cache and normalise the shape
     const modules: Module[] = stats.modules.map(function(module: WebpackModule, idx: number): Module {
         const uid = String(module.id);
 
-        const modulePath = module.name.split(path.sep).slice(1); // get rid of .
-        // CHECK: check, not sure if it works in the browser
-        const indexNodeModules = modulePath.indexOf('~'); // use is3rdPartLibrary() instead
+        const modulePathFull = module.name.replace(/^(\.\/)/, '');
+        const exec3rdPartyMatched = exec3rdPartyLibrary(module.name);
+        const is3rdPartyLibrary = Boolean(exec3rdPartyMatched);
 
-        const modulePathGroup = indexNodeModules === -1 ? modulePath : modulePath.slice(indexNodeModules + 1);
+        const modulePath = is3rdPartyLibrary ? modulePathFull.slice(exec3rdPartyMatched.index) : modulePathFull;
+
+        // TODO: check, not sure if it works in the browser
+        const modulePathGroup = modulePath.split(path.sep);
         let [groupName] = modulePathGroup;
+
         if (!groupName) {
             groupName = module.name;
         }
@@ -66,7 +70,7 @@ function processData(stats: WebpackStat) {
             name: groupName,
             size: 0,
             count: 0,
-            is3rdPartyLibrary: is3rdPartLibrary(module.name)
+            is3rdPartyLibrary
         };
 
         mapGroup[groupName].count += 1;
