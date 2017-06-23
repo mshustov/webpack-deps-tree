@@ -16,7 +16,7 @@ const FileUpload: React.SFC<FileUploadProps> = props => {
                 accept="application/json"
                 onChange={props.onChange}
             />
-            {props.children && <span className="file-upload__title">{props.children}</span>}
+            {props.children}
         </label>
     );
 };

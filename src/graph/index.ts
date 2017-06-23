@@ -49,21 +49,22 @@ function linkid(l: d3Force) {
 interface GraphProps {
     nodes: Module[];
     edges: ModuleEdge[];
-    // groups: {[key: string]: ModuleGroup};
 
     activeModuleId: ModuleId;
     isModuleOverview: boolean;
 }
 
-// TODO add return interfaces
-export function bootstrap(root: HTMLElement) {
+export function bootstrap(root: HTMLElement): { 
+    updateData: (props: GraphProps) => void,
+    updateFilter: (value: string, isModuleOverview: boolean) => void
+} {
     let force;
     const fill = d3.scale.category20();
 
     const svg = d3.select(root).append('svg');
     const g = svg.append('g');
 
-    // order matters for events
+    // NOTE: order matters for capturing events
     const hullg = g.append('g');
     const linkg = g.append('g');
     const nodeg = g.append('g');
@@ -89,7 +90,7 @@ export function bootstrap(root: HTMLElement) {
 
         const filterReg = new RegExp(value, 'i');
 
-        // TODO: can we pass filter as data and just use declarative react-like approach?
+        // TODO: make declarative api
         g.selectAll('.node')
             .filter(d => !filterReg.test(getIndex(d)))
             .classed('fade', true);

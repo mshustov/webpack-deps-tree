@@ -2,7 +2,6 @@
 const getGroup = (i: Module): string => i.group.name;
 
 // constructs the network to visualize
-// TODO rename subgroup
 function network(dataNodes: Module[], dataEdges: ModuleEdge[]): {nodes: ModuleOverview[], edges: ModuleEdge[]} {
     const nodes = [];
     const groupMap = {};
