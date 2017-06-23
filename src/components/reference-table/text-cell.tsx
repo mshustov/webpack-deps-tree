@@ -1,6 +1,7 @@
 import * as React from 'react';
+import classnames from 'classnames';
 import { Cell } from 'fixed-data-table-2';
-const noop = () => null;
+import './reference-table-style.css';
 
 export interface TextCellProps {
     rowIndex?: number; // will be injected by 'fixed-data-table'
@@ -12,11 +13,18 @@ export interface TextCellProps {
 const TextCell: React.SFC<TextCellProps> = props => {
     const { rowIndex, data, col, onClick, ...cleanProps } = props;
     const value = data[col][rowIndex];
-    const clickHandler = onClick || noop;
+
+    const cellClassnames = classnames('reference-table__cell', {
+        'reference-table__cell--clickable': Boolean(onClick)
+    });
 
     return (
         value ?
-            <Cell {...cleanProps} onClick={() => clickHandler(value.moduleUid)}>
+            <Cell
+                {...cleanProps}
+                className={cellClassnames}
+                onClick={onClick ? () => onClick(value.moduleUid) : undefined}
+            >
                 {value.moduleName}
             </Cell> :
             null

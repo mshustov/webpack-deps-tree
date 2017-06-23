@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Cell } from 'fixed-data-table-2';
-
-const noop = () => ({});
+import classnames from 'classnames';
+import './table-style.css';
 
 export interface TextCellProps {
     rowIndex?: number; // will be injected by 'fixed-data-table'
@@ -14,9 +14,16 @@ const TextCell: React.SFC<TextCellProps> = props => {
     const { rowIndex, data, col, onClick, ...otherProps } = props;
     const module = data[rowIndex];
 
-    const clickHandler = onClick || noop;
+    const cellClassnames = classnames('table__cell', {
+        'table__cell--clickable': Boolean(onClick)
+    });
+
     return (
-        <Cell {...otherProps} onClick={() => clickHandler(module.uid)}>
+        <Cell
+            {...otherProps}
+            className={cellClassnames}
+            onClick={onClick ? () => onClick(module.uid) : undefined}
+        >
             {module[col]}
         </Cell>
     );

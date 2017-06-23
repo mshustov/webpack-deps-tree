@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Cell } from 'fixed-data-table-2';
+import classnames from 'classnames';
 
 import { SortDir, SortTypes } from './sort-types';
 
@@ -21,8 +22,6 @@ class SortHeaderCell extends React.Component<SortHeaderCellProps, {}> {
     }
 
     _onSortChange(e: React.MouseEvent) {
-        e.preventDefault();
-
         if (this.props.onSortChange) {
             this.props.onSortChange(
                 this.props.columnKey,
@@ -36,11 +35,18 @@ class SortHeaderCell extends React.Component<SortHeaderCellProps, {}> {
     render() {
         var { sortDir, children, onSortChange, ...props } = this.props;
         const sortingLabel = sortDir ? (sortDir === SortTypes.DESC ? '↑' : '↓') : '';
+
+        const cellClassnames = classnames('table__cell', {
+            'table__cell--clickable': Boolean(onSortChange)
+        });
+
         return (
-            <Cell {...props}>
-                <a onClick={this._onSortChange}>
-                    {children} {sortingLabel}
-                </a>
+            <Cell
+                {...props}
+                className={cellClassnames}
+                onClick={this._onSortChange}
+            >
+                {children} {sortingLabel}
             </Cell>
         );
     }

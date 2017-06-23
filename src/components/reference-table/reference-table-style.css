@@ -19,3 +19,7 @@
 .reference-table--empty .reference-table__title {
     text-align: center;
 }
+
+.reference-table__cell--clickable {
+    cursor: pointer;
+}

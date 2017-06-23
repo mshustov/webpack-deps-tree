@@ -7,3 +7,7 @@
 .reference-table__element {
     font-size: 11px;
 }
+
+.table__cell--clickable {
+    cursor: pointer;
+}
