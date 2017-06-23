@@ -36,7 +36,6 @@ const config = {
 
 };
 
-// add prefix for group for simplifying sorting
 const nodeid = (d: d3ForceItem): string => d.uid;
 
 function linkid(l: d3Force) {
@@ -54,6 +53,7 @@ interface GraphProps {
     isModuleOverview: boolean;
 }
 
+// pefrormance http://stackoverflow.com/questions/26188266/how-to-speed-up-the-force-layout-animation-in-d3-js
 export function bootstrap(root: HTMLElement): { 
     updateData: (props: GraphProps) => void,
     updateFilter: (value: string, isModuleOverview: boolean) => void
@@ -70,7 +70,7 @@ export function bootstrap(root: HTMLElement): {
     const nodeg = g.append('g');
     const textg = g.append('g');
 
-    const zoomFit = configureZoomFit(g);
+    const zoomFit = configureZoomFit();
     cofigureZoom({ frame: g, target: svg });
 
     function cleanFiltered() {
@@ -116,6 +116,7 @@ export function bootstrap(root: HTMLElement): {
         }
 
         cleanFiltered();
+        zoomFit();
     }
 
     function renderOverview(props: GraphProps) {
@@ -291,7 +292,6 @@ export function bootstrap(root: HTMLElement): {
         resize({ target: svg, force, offsetRight: config.svg.offsetRight });
     }
 
-    // pefrormance http://stackoverflow.com/questions/26188266/how-to-speed-up-the-force-layout-animation-in-d3-js
     zoomFit();
 
     return { updateData, updateFilter };

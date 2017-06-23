@@ -23,6 +23,7 @@ export function configureNodeDrag(tick: () => void) {
 
 const minZoom = 0.2;
 const maxZoom = 1;
+const medZoom = (minZoom + maxZoom) / 2;
 const zoom = d3.behavior.zoom().scaleExtent([minZoom, maxZoom]);
 
 export function cofigureZoom({ frame, target }) {
@@ -36,9 +37,9 @@ export function cofigureZoom({ frame, target }) {
 
 // http://bl.ocks.org/TWiStErRob/b1c62730e01fe33baa2dea0d0aa29359
 // fit in with resize https://jsfiddle.net/adityap16/11edxrnq/1/
-export function configureZoomFit(target){
-    return function zoomFit(transitionDuration = 0) {
-        return zoom.scale(0.5);
+export function configureZoomFit() {
+    return function zoomFit(scaleVal: number = medZoom) {
+        return zoom.scale(scaleVal);
         // const node = target.node();
         // const bounds = node.getBBox();
         // const parent = node.parentElement;
