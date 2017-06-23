@@ -1,16 +1,16 @@
 import * as React from 'react';
 import { Cell } from 'fixed-data-table-2';
 
-import { SortType, SortTypes } from './sort-types';
+import { SortDir, SortTypes } from './sort-types';
 
-function reverseSortDirection(sortDir: SortType): SortType {
+function reverseSortDirection(sortDir: SortDir): SortDir {
     return sortDir === SortTypes.DESC ? SortTypes.ASC : SortTypes.DESC;
 }
 
 export interface SortHeaderCellProps {
     columnKey?: string; // will be injected by 'fixed-data-table'
-    sortDir: SortType;
-    onSortChange: (columnKey: string, sortDir: SortType) => void;
+    sortDir?: SortDir;
+    onSortChange?: (columnKey: string, sortDir: SortDir) => void;
 }
 
 class SortHeaderCell extends React.Component<SortHeaderCellProps, {}> {
@@ -35,7 +35,7 @@ class SortHeaderCell extends React.Component<SortHeaderCellProps, {}> {
 
     render() {
         var { sortDir, children, onSortChange, ...props } = this.props;
-        const sortingLabel = sortDir ? (sortDir === SortTypes.DESC ? '↓' : '↑') : '';
+        const sortingLabel = sortDir ? (sortDir === SortTypes.DESC ? '↑' : '↓') : '';
         return (
             <Cell {...props}>
                 <a onClick={this._onSortChange}>

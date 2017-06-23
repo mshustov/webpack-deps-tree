@@ -2,7 +2,7 @@ import * as React from 'react';
 import Dimensions from 'react-dimensions';
 import { Table, Column, Cell } from 'fixed-data-table-2';
 
-import { SortType, SortTypes } from './sort-types';
+import { SortDir, SortTypes, SortKey, SortingOrder } from './sort-types';
 import SortHeaderCell from './sortable-header-cell';
 import TextCell from './text-cell';
 import 'fixed-data-table-2/dist/fixed-data-table.css';
@@ -10,11 +10,14 @@ import 'fixed-data-table-2/dist/fixed-data-table.css';
 interface ModulesTableProps {
     containerWidth: number; // injected by react-dimension
     containerHeight: number; // injected by react-dimension
-
-    colSortDirs: { [key: string]: SortType };
+    colSortDirs: SortingOrder;
     modules: Module[];
     onSelect: (moduleId: ModuleId) => void;
-    onSortChange: (columnKey: string, sortDir: SortType) => void;
+    onSortChange: (columnKey: string, sortDir: SortDir) => void;
+}
+
+function getSortDirFor(key: SortKey, colSortDirs: SortingOrder) {
+    return colSortDirs.key === key ? colSortDirs.direction : null;
 }
 
 // we use class since react-dimension uses refs
@@ -32,10 +35,7 @@ class ModuleTable extends React.Component<ModulesTableProps, {}> {
                 <Column
                     columnKey="id"
                     header={
-                        <SortHeaderCell
-                            onSortChange={this.props.onSortChange}
-                            sortDir={this.props.colSortDirs.id}
-                        >
+                        <SortHeaderCell>
                             Module id
                         </SortHeaderCell>
                     }
@@ -49,7 +49,7 @@ class ModuleTable extends React.Component<ModulesTableProps, {}> {
                     header={
                         <SortHeaderCell
                             onSortChange={this.props.onSortChange}
-                            sortDir={this.props.colSortDirs.name}
+                            sortDir={getSortDirFor('name', this.props.colSortDirs)}
                         >
                             Module name
                         </SortHeaderCell>
@@ -70,7 +70,7 @@ class ModuleTable extends React.Component<ModulesTableProps, {}> {
                     header={
                         <SortHeaderCell
                             onSortChange={this.props.onSortChange}
-                            sortDir={this.props.colSortDirs.size}
+                            sortDir={getSortDirFor('size', this.props.colSortDirs)}
                         >
                             Module size
                         </SortHeaderCell>
@@ -86,7 +86,7 @@ class ModuleTable extends React.Component<ModulesTableProps, {}> {
                     header={
                         <SortHeaderCell
                             onSortChange={this.props.onSortChange}
-                            sortDir={this.props.colSortDirs.reasonsCount}
+                            sortDir={getSortDirFor('reasonsCount', this.props.colSortDirs)}
                         >
                             Module occurences
                         </SortHeaderCell>

@@ -1,14 +1,23 @@
 // want to be moved to separate module
-export const SORT_ASC = 'ASC';
-export type SortTypeAsc = typeof SORT_ASC;
+export const SORT_ASC = 'asc';
+export type SortDirAsc = typeof SORT_ASC;
 
-export const SORT_DESC = 'DESC';
-export type SortTypeDesc = typeof SORT_DESC;
+export const SORT_DESC = 'desc';
+export type SortDirDesc = typeof SORT_DESC;
 
-// not sure about export, but....
-export type SortType = SortTypeAsc | SortTypeDesc;
+export type SortDir = SortDirAsc | SortDirDesc;
 
-export const SortTypes: {[key: string]: SortType} = {
+export const SortTypes: {[key: string]: SortDir} = {
     ASC: SORT_ASC,
     DESC: SORT_DESC
 };
+
+export type SortingOrder = {
+    key: SortKey;
+    direction: SortDir;
+};
+
+export type SortKey =
+    'name' |
+    'size' |
+    'reasonsCount';

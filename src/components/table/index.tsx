@@ -1,8 +1,8 @@
 import * as React from 'react';
+import orderBy from 'lodash/orderBy';
 
-import { SortType, SortTypes } from './sort-types';
+import { SortDir, SortTypes, SortKey, SortingOrder } from './sort-types';
 
-// FIXME how to separate types from values here?
 import Input from '../input/';
 import ModuleTable from './table';
 
@@ -10,24 +10,34 @@ import './table-style.css';
 
 interface ModulesTableProps {
     modules: Module[];
-    // FIXME we shouldn't write it every time manually. should we?
     onSelect: (moduleId: ModuleId) => void;
 }
 
 interface ModulesTableState {
     filteredDataList: Module[];
-    colSortDirs: { [key: string]: SortType };
+    colSortDirs: SortingOrder;
 }
+
+const defaultSort: SortKey = 'name';
+const defaultSortDirection: SortDir = SortTypes.ASC;
 
 class ModuleTableWrapper extends React.Component<ModulesTableProps, ModulesTableState> {
     _dataList: Module[];
+
+    static sortDataList(modules: Module[], columnKey: SortKey, sortDir: SortDir): Module[] {
+        return orderBy(modules, columnKey, sortDir);
+    }
+
     constructor(props: ModulesTableProps) {
         super(props);
 
         this._dataList = props.modules;
         this.state = {
             filteredDataList: this._dataList,
-            colSortDirs: {}
+            colSortDirs: {
+                key: defaultSort,
+                direction: defaultSortDirection
+            }
         };
 
         this._onFilterChange = this._onFilterChange.bind(this);
@@ -42,7 +52,7 @@ class ModuleTableWrapper extends React.Component<ModulesTableProps, ModulesTable
             });
         }
 
-        // CHECK regexp
+        // TODO: regexp
         const filteredDataList = this._dataList.filter(m => m.name.toLowerCase().indexOf(filterBy) !== -1);
 
         this.setState((prevState, props) => {
@@ -50,35 +60,30 @@ class ModuleTableWrapper extends React.Component<ModulesTableProps, ModulesTable
         });
     }
 
-    _onSortChange(columnKey: string, sortDir: SortType): void {
-        const sortedList = this.state.filteredDataList.sort((moduleA, moduleB) => {
-            const valueA = moduleA[columnKey];
-            const valueB = moduleB[columnKey];
-            let sortVal = 0;
-            if (valueA > valueB) {
-                sortVal = 1;
-            }
-            if (valueA < valueB) {
-                sortVal = -1;
-            }
-            if (sortVal !== 0 && sortDir === SortTypes.ASC) {
-                sortVal = sortVal * -1;
-            }
-
-            return sortVal;
-        });
-
+    _onSortChange(sortKey: SortKey, sortDir: SortDir): void {
         this.setState((prevState, props) => {
             return {
                 ...prevState,
-                sortedDataList: sortedList,
-                colSortDirs: { [columnKey]: sortDir }
+                sortedDataList: ModuleTableWrapper.sortDataList(
+                    this.state.filteredDataList,
+                    sortKey,
+                    sortDir
+                ),
+                colSortDirs: {
+                    key: sortKey,
+                    direction: sortDir
+                }
             };
         });
     }
 
     render() {
         const { filteredDataList, colSortDirs } = this.state;
+        const modules = ModuleTableWrapper.sortDataList(
+            this.state.filteredDataList,
+            colSortDirs.key,
+            colSortDirs.direction
+        );
 
         return (
             <div className="table">
@@ -90,7 +95,7 @@ class ModuleTableWrapper extends React.Component<ModulesTableProps, ModulesTable
                 </div>
                 <ModuleTable
                     colSortDirs={colSortDirs}
-                    modules={filteredDataList}
+                    modules={modules}
                     onSelect={this.props.onSelect}
                     onSortChange={this._onSortChange}
                 />

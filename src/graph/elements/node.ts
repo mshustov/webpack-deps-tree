@@ -12,7 +12,7 @@ export default function reInitilizeNode({ parent, data, key, tick, fill, config 
         .attr('r', function(d: d3ForceItem) {
             // could be an object in case of module and number (as size) in case of module
             return Math.max(
-                (d.linkCount ? Math.log2(d.size) : 0), // FIXME: d.linkCount as distinguish
+                (d.linkCount ? Math.log2(d.size) : 0), // FIXME: d.linkCount as way to distinguish
                 config.node.radius
             );
         })
