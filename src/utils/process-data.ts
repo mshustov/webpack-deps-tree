@@ -1,4 +1,5 @@
 import uniqBy from 'lodash/uniqBy';
+import flow from 'lodash/flow';
 const path = require('path');
 
 function is3rdPartLibrary(moduleName: string): boolean {
@@ -26,7 +27,10 @@ function byReasonsCount(moduleA: Module, moduleB: Module) {
     return moduleB.reasonsCount - moduleA.reasonsCount;
 }
 
-const toFloat = (num, precision) => parseFloat(num.toFixed(precision));
+const toFixed = (precision: number = 0) => (num: number) => num.toFixed(precision);
+const toKb = (size: number) => size / 1024;
+
+const castToKb = flow(toKb, toFixed(1), parseFloat);
 
 function processData(stats: WebpackStat) {
     stats.assets.sort(function(a: WebpackAsset, b: WebpackAsset) {
@@ -34,8 +38,7 @@ function processData(stats: WebpackStat) {
     });
     stats.modules.sort(byId);
     var mapModules = {};
-    var mapModulesIdent = {};
-    const mapGroup = {}; // TODO merge with above
+    const mapGroup = {};
 
     const getModuleById: GetModuleById = id => mapModules[id];
 
@@ -84,7 +87,6 @@ function processData(stats: WebpackStat) {
         };
 
         mapModules[m.uid] = m;
-        mapModulesIdent['$' + m.uid] = m;
 
         return m;
     });
@@ -114,7 +116,7 @@ function processData(stats: WebpackStat) {
         module.reasonsCount = uniqueReasons.length;
 
         uniqueReasons.forEach((r: Reason) => {
-            var m = mapModulesIdent['$' + r.moduleUid];
+            var m = mapModules[r.moduleUid];
             if (!m) {
                 return;
             }
@@ -132,7 +134,7 @@ function processData(stats: WebpackStat) {
     modules.forEach(module => {
         const reasons = module.reasons;
         reasons.forEach(function(reason: Reason) {
-            var parentModule = mapModulesIdent['$' + reason.moduleUid];
+            var parentModule = mapModules[reason.moduleUid];
             if (!parentModule) {
                 return;
             }
@@ -180,7 +182,7 @@ function processData(stats: WebpackStat) {
     const groups = Object.keys(mapGroup).sort((keyA, keyB) => mapGroup[keyB].size - mapGroup[keyA].size);
 
     Object.keys(mapGroup).forEach(key => {
-        mapGroup[key].size = toFloat((mapGroup[key].size / 1024), 1);
+        mapGroup[key].size = castToKb(mapGroup[key].size);
     });
 
     modules.sort(byReasonsCount);
