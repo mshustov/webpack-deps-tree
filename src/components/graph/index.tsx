@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Input from '../input';
 // ok ,here we want to render 2 differnet graphs, get back to problem later
-import { bootstrap } from '../../graph/index';
+import { bootstrap } from '../../graph/';
 import './graph-style.css';
 
 interface GraphProps {
@@ -10,7 +10,11 @@ interface GraphProps {
 
     activeModuleId: ModuleId;
     isModuleOverview: boolean;
+
+    onModuleSelect: (name: string) => void;
+    onGroupSelect: (name: string) => void;
 }
+
 interface GraphState {
     filter: string;
 }

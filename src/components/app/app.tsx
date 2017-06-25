@@ -1,11 +1,11 @@
 import * as React from 'react';
 
-import Table from '../table/index';
-import ReferenceTable from '../reference-table/index';
+import Table from '../table/';
+import ReferenceTable from '../reference-table/';
 
 import OverviewSelect from '../overview-control/select';
 import OverviewButton from '../overview-control/button';
-import Graph from '../graph/index';
+import Graph from '../graph/';
 
 import './app-style.css';
 
@@ -33,6 +33,9 @@ const App = (props: AppProps) => (
 
                 activeModuleId={props.activeModuleId}
                 isModuleOverview={props.isModuleOverview}
+
+                onModuleSelect={(v) => props.onSelect('module', v)}
+                onGroupSelect={(v) => props.onSelect('group', v)}
             >
                 <OverviewSelect
                     groups={props.groups}

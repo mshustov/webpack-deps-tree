@@ -51,6 +51,9 @@ interface GraphProps {
 
     activeModuleId: ModuleId;
     isModuleOverview: boolean;
+
+    onModuleSelect: (name: string) => void;
+    onGroupSelect: (name: string) => void;
 }
 
 // pefrormance http://stackoverflow.com/questions/26188266/how-to-speed-up-the-force-layout-animation-in-d3-js
@@ -181,8 +184,10 @@ export function bootstrap(root: HTMLElement): {
             fill(d: d3ForceItem) {
                 return fill(d.uid);
             },
-            config
-            // ondblclick(d)
+            config,
+            ondblclick(d: d3ForceItem) {
+                props.onGroupSelect(d.uid);
+            }
         });
 
         const updateLinkPosition = reInitilizeLinks({
@@ -266,7 +271,10 @@ export function bootstrap(root: HTMLElement): {
             fill(d: d3ForceItem) {
                 return isModuleActive(d) ? config.node.activeColor : fill(getGroup(d));
             },
-            config
+            config,
+            ondblclick(d: d3ForceItem) {
+                props.onModuleSelect(d.uid);
+            }
         });
 
         const updateLinkPosition = reInitilizeLinks({

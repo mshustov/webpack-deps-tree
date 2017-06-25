@@ -1,6 +1,6 @@
 import { configureNodeDrag } from '../../utils/graph/control';
 
-export default function reInitilizeNode({ parent, data, key, tick, fill, config }) {
+export default function reInitilizeNode({ parent, data, key, tick, fill, config, ondblclick }) {
     const node = parent.selectAll('circle.node').data(data, key);
 
     node.exit().remove();
@@ -18,6 +18,7 @@ export default function reInitilizeNode({ parent, data, key, tick, fill, config 
         })
         .attr('cx', d => d.x)
         .attr('cy', d => d.y)
+        .on('dblclick', ondblclick)
         .call(configureNodeDrag(tick));
 
     node.style('fill', fill);
