@@ -254,7 +254,10 @@ export function bootstrap(root: HTMLElement): {
 
         const updateHullPosition = reInitilizeHull({
             parent: hullg,
-            nodes: nodes,
+            get nodes() {
+                // here we need lazy access to update data on tick
+                return nodes;
+            },
             fill(d: d3HullItem) {
                 const group = d.group;
                 return fill(group);
