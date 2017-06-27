@@ -1,3 +1,7 @@
+.init-page {
+    height: 100%;
+}
+
 .init-upload {
     display: flex;
     height: 100%;

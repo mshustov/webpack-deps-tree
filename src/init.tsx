@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import GithubCorner from 'react-github-corner';
 
 import FileUpload from './components/file-upload/';
 import Button from './components/button/';
@@ -28,15 +29,18 @@ function runWithExample() {
 }
 
 ReactDOM.render(
-    <div className="init-upload">
-        <FileUpload onChange={onLoad}>
-            Select stats.json
-        </FileUpload>
-        <div>
-            <Button onClick={runWithExample}>
-                Or use example
-            </Button>
+    <div className="init-page">
+        <div className="init-upload">
+            <FileUpload onChange={onLoad}>
+                Select stats.json
+            </FileUpload>
+            <div>
+                <Button onClick={runWithExample}>
+                    Or use example
+                </Button>
+            </div>
         </div>
+        <GithubCorner href="https://github.com/restrry/webpack-deps-tree" />
     </div>
     ,
     document.getElementById('root')
